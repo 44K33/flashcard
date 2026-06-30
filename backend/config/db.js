@@ -1,1 +1,3 @@
 // MongoDB-Verbindung
+
+const hallo;
