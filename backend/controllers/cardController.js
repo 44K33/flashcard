@@ -4,6 +4,8 @@ import Deck from "../models/Deck.js";
 
 // @desc    Alle Karten eines Decks abrufen
 // @route   GET /api/cards/deck/:deckId
+
+//Card.find({ deck: req.params.deckId }) holt nur Karten die zum angegebenen Deck gehören, nicht alle Karten aus der ganzen Datenbank.
 export const getCardsByDeck = async (req, res) => {
   try {
     const cards = await Card.find({ deck: req.params.deckId }).sort({ createdAt: 1 });
@@ -16,7 +18,9 @@ export const getCardsByDeck = async (req, res) => {
 // @desc    Einzelne Karte abrufen
 // @route   GET /api/cards/:id
 export const getCardById = async (req, res) => {
+  // try: "Versuch das hier auszuführen". catch: "Falls etwas schiefgeht, fang den Fehler ab und schick eine Fehlermeldung zurück". Ohne try/catch würde ein Fehler den ganzen Server zum Absturz bringen.
   try {
+    //Datenbankabfrage dauert ein paar Millisekunden. Mit async/await kann der Server in dieser Zeit andere Anfragen bearbeiten
     const card = await Card.findById(req.params.id);
     if (!card) {
       return res.status(404).json({ message: "Karte nicht gefunden" });
@@ -29,6 +33,8 @@ export const getCardById = async (req, res) => {
 
 // @desc    Neue Karte erstellen
 // @route   POST /api/cards
+
+//Zusätzlich zur normalen Validierung wird geprüft, ob das angegebene Deck überhaupt existiert (Deck.findById(deck)). So kann man keine Karte für ein nicht existierendes Deck erstellen.
 export const createCard = async (req, res) => {
   try {
     const { question, answer, deck } = req.body;
@@ -51,6 +57,8 @@ export const createCard = async (req, res) => {
 
 // @desc    Karte bearbeiten
 // @route   PUT /api/cards/:id
+
+//Das Feld known kann hier auf true oder false gesetzt werden. Im Frontend schickt der Lernmodus z.B. { known: true } wenn der Nutzer eine Karte als gewusst markiert. So wird der Lernfortschritt in der Datenbank gespeichert.
 export const updateCard = async (req, res) => {
   try {
     const { question, answer, known } = req.body;

@@ -1,4 +1,4 @@
-//Mongoose Schema für Decks
+//Models definieren wie die Daten in der Datenbank aussehen./Ein Deck ist eine Sammlung von Karteikarten 
 import mongoose from "mongoose";
 
 const deckSchema = new mongoose.Schema(

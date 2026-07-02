@@ -1,4 +1,4 @@
-//Mongoose Schema für Cards
+//Models definieren wie die Daten in der Datenbank aussehen. / Eine Card ist eine einzelne Karteikarte, die immer zu einem Deck gehört.
 import mongoose from "mongoose";
 
 const cardSchema = new mongoose.Schema(
@@ -14,6 +14,7 @@ const cardSchema = new mongoose.Schema(
       trim: true,
     },
     deck: {
+      // Jedes Dokument in MongoDB bekommt automatisch eine eindeutige ID, die wir hier als Referenz auf das Deck speichern, zu dem die Karte gehört.
       type: mongoose.Schema.Types.ObjectId,
       ref: "Deck",
       required: true,

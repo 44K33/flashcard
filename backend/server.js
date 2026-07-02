@@ -13,6 +13,7 @@ connectDB();
 const app = express();
 
 app.use(cors());
+// Wenn eine Anfrage reinkommt, parse den Body automatisch als JSON.
 app.use(express.json());
 
 // Test-Route
@@ -20,7 +21,7 @@ app.get("/", (req, res) => {
   res.send("Flashcard API läuft");
 });
 
-// Haupt-Routen
+// Alle Anfragen die mit /api/decks beginnen, werden an die deckRoutes weitergeleitet. Gleiches Prinzip für /api/cards.
 app.use("/api/decks", deckRoutes);
 app.use("/api/cards", cardRoutes);
 
@@ -30,6 +31,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
+// Startet den Server auf dem angegebenen Port (Standard: 5000). Ab diesem Moment kann der Server Anfragen entgegennehmen.
 app.listen(PORT, () => {
   console.log(`Server läuft auf Port ${PORT}`);
 });
