@@ -1,3 +1,5 @@
+import DeckCard from "../components/DeckCard";
+
 function DeckList({ decks = [] }) {
   if (!decks.length) {
     return <p>No decks available yet.</p>;
@@ -6,7 +8,13 @@ function DeckList({ decks = [] }) {
   return (
     <ul>
       {decks.map((deck) => (
-        <li key={deck._id || deck.id || deck.name}>{deck.name}</li>
+        <DeckCard
+          key={deck._id || deck.id}
+          name={deck.name}
+          description={deck.description}
+          cardCount={deck.cardCount}
+          icon={deck.icon}
+        />
       ))}
     </ul>
   );
