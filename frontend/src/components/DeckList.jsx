@@ -6,7 +6,8 @@ function DeckList({ decks = [] }) {
   }
 
   return (
-    <ul>
+    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Responsive: Definition der Anzahl Spalten je nach Displaygrösse*/}
       {decks.map((deck) => (
         <DeckCard
           key={deck._id || deck.id}

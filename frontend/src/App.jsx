@@ -5,7 +5,7 @@ import Study from "./pages/Study";
 
 function App() {
   return (
-    <>
+    <div className="min-h-screen bg-gray-100">
       <nav>
         <Link to="/">Home</Link> | <Link to="/decks/1">Deck Detail</Link> |{" "}
         <Link to="/study">Study</Link>
@@ -15,7 +15,7 @@ function App() {
         <Route path="/decks/:deckId" element={<DeckDetail />} />
         <Route path="/study" element={<Study />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
