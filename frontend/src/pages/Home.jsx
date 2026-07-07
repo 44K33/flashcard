@@ -1,5 +1,5 @@
-import DeckForm from "../components/DeckForm";
 import DeckList from "../components/DeckList";
+import DeckHeader from "../components/DeckHeader";
 
 function Home() {
   const testDecks = [
@@ -15,8 +15,7 @@ function Home() {
 
   return (
     <main className="pt-24 pb-8 px-8 max-w-7xl mx-auto">
-      <h1>Flashcard App</h1>
-      <DeckForm />
+      <DeckHeader />
       <DeckList decks={testDecks} />
     </main>
   );
