@@ -1,13 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --text-headlinemd: 24px;
-  --text-headlinemd--line-height: 32px;
-  --text-bodymd: 16px;
-  --text-bodymd--line-height: 24px;
-  --text-labelsm: 14px;
-  --text-labelsm--line-height: 20px;
+  /* Font Family */
+  --font-sans: "Inter", sans-serif;
 
+  /* Font Sizes */
+  --text-display-lg: 48px;
+  --text-display-lg--line-height: 56px;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg-mobile: 36px;
+  --text-display-lg-mobile--line-height: 44px;
+  --text-display-lg-mobile--letter-spacing: -0.02em;
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-label-sm: 14px;
+  --text-label-sm--line-height: 20px;
+  --text-card-content: 20px;
+  --text-card-content--line-height: 30px;
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+
+  /* Colors */
   --color-primary: #3525cd;
   --color-on-primary: #ffffff;
   --color-primary-container: #4f46e5;
@@ -62,10 +78,12 @@ body {
 }
 
 .custom-card-shadow {
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .custom-card-shadow:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
