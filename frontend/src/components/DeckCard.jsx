@@ -5,38 +5,52 @@ function DeckCard({ name, description, cardCount, icon, onEdit, onDelete }) {
   // LucideIcons[icon] = dynamisches Icon anhand des Namens (z.B. "Database" → <Database />)
   const IconComponent = LucideIcons[icon] || LucideIcons.Layers;
   // || LucideIcons.Layers = Fallback falls Icon-Name nicht gefunden
+
   return (
-    // transition + hover:-translate-y-1 = Karte hebt sich beim Hovern leicht an
-    <div className="bg-white p-8 rounded-xl shadow-md flex flex-col border border-gray-100 transition hover:-translate-y-1 hover:shadow-lg">
-      <div className="flex justify-between items-center mb-8">
-        {/* Kategorie-Icon mit hellem Indigo-Hintergrund */}
-        <div className="rounded-lg bg-[#EEF2FF] px-6 py-2 h-12 flex items-center justify-center text-[#4F46E5]">
+    // custom-card-shadow = eigene CSS-Klasse in index.css mit Schatten + Hover-Animation
+    // border-transparent = unsichtbarer Border, wird beim Hovern zu primary-fixed (hellblau)
+    <div className="bg-surface-container-lowest p-6 rounded-xl custom-card-shadow flex flex-col border border-transparent hover:border-primary-fixed">
+      <div className="flex justify-between items-start mb-4">
+        {/* Icon-Container mit hellem Primärfarben-Hintergrund (10% Deckkraft) */}
+        <div className="rounded-lg bg-primary-container/10 p-3 flex items-center justify-center text-primary">
           <IconComponent strokeWidth={3} />
         </div>
-        <div className="flex gap-3">
-          {/* hover:bg = Hintergrund beim Hovern; cursor-pointer = Mauszeiger als Hand */}
-          <button className="p-2 rounded-lg hover:bg-[#EEF2FF] cursor-pointer">
-            <Pencil className="text-gray-800 cursor-pointer" size={18} />
+
+        <div className="flex gap-1">
+          {/* Bearbeiten-Button: heller Hintergrund beim Hovern */}
+          <button className="p-1.5 rounded-lg hover:bg-surface-container-high cursor-pointer">
+            <Pencil
+              className="text-on-surface-variant cursor-pointer"
+              size={20}
+            />
           </button>
-          {/* group + group-hover: = Kind-Element reagiert auf Hover des Eltern-Elements */}
-          <button className="p-2 rounded-lg hover:bg-red-100 cursor-pointer group">
+
+          {/* Löschen-Button: group + group-hover = Icon wird rot wenn Button gehovert */}
+          <button className="p-1.5 rounded-lg hover:bg-error-container cursor-pointer group">
             <Trash2
-              className="group-hover:text-red-500 cursor-pointer"
-              size={18}
+              className="group-hover:text-error cursor-pointer"
+              size={20}
             />
           </button>
         </div>
       </div>
-      <h3 className="font-bold mb-[0.4rem]  text-xl lg:text-2xl">{name}</h3>
-      <p className="text-xl lg:text-2xl mb-[1.3rem] text-gray-700">
+
+      {/* Titel: 24px entspricht headline-md aus dem Stitch-Design */}
+      <h3 className="text-[24px] font-semibold text-on-surface mb-2">{name}</h3>
+
+      {/* Beschreibung: flex-grow = füllt verfügbaren Platz, damit Lernen-Button immer unten bleibt */}
+      <p className="text-[16px] text-on-surface-variant mb-6 flex-grow">
         {description}
       </p>
+
       <div className="flex justify-between items-center mt-auto">
-        {/* flex items-center gap-2 = Icon und Text nebeneinander mit Abstand */}
-        <span className="flex items-center gap-2 text-gray-500">
-          <LucideIcons.Layers /> {cardCount} Karten
+        {/* mt-auto = schiebt diesen Bereich ans Ende der Karte */}
+        <span className="flex items-center gap-1 text-outline text-[14px]">
+          <LucideIcons.Layers size={18} /> {cardCount} Karten
         </span>
-        <button className="rounded-lg text-white bg-[#4F46E5] w-fit px-6 py-2 font-bold hover:bg-[#6366F1] cursor-pointer">
+
+        {/* active:scale-95 = Button verkleinert sich leicht beim Klicken */}
+        <button className="rounded-xl text-on-primary bg-primary px-6 py-2 font-bold hover:opacity-90 transition-all duration-200 active:scale-95 cursor-pointer">
           Lernen
         </button>
       </div>

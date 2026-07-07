@@ -1,4 +1,5 @@
 import DeckCard from "../components/DeckCard";
+import AddDeckCard from "./AddDeckCard";
 
 function DeckList({ decks = [] }) {
   if (!decks.length) {
@@ -17,6 +18,7 @@ function DeckList({ decks = [] }) {
           icon={deck.icon}
         />
       ))}
+      <AddDeckCard />
     </ul>
   );
 }

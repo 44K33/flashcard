@@ -14,7 +14,7 @@ function Home() {
   ];
 
   return (
-    <main className="px-10">
+    <main className="pt-24 pb-8 px-8 max-w-7xl mx-auto">
       <h1>Flashcard App</h1>
       <DeckForm />
       <DeckList decks={testDecks} />
