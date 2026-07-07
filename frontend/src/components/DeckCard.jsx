@@ -18,7 +18,7 @@ function DeckCard({ name, description, cardCount, icon, onEdit, onDelete }) {
 
         <div className="flex gap-1">
           {/* Bearbeiten-Button: heller Hintergrund beim Hovern */}
-          <button className="p-1.5 rounded-lg hover:bg-surface-container-high cursor-pointer">
+          <button className="p-1.5 rounded-lg hover:bg-surface-container-high cursor-pointer" title="Bearbeiten">
             <Pencil
               className="text-on-surface-variant cursor-pointer"
               size={20}
@@ -26,7 +26,7 @@ function DeckCard({ name, description, cardCount, icon, onEdit, onDelete }) {
           </button>
 
           {/* Löschen-Button: group + group-hover = Icon wird rot wenn Button gehovert */}
-          <button className="p-1.5 rounded-lg hover:bg-error-container cursor-pointer group">
+          <button className="p-1.5 rounded-lg hover:bg-error-container cursor-pointer group" title="Löschen">
             <Trash2
               className="group-hover:text-error cursor-pointer"
               size={20}

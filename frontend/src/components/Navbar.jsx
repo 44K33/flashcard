@@ -24,9 +24,16 @@ function Navbar() {
       {/* Rechter Bereich: Button für neuen Stapel */}
       <div className="flex items-center gap-4">
         {/* active:scale-95 = Button verkleinert sich leicht beim Klicken */}
-        <button className="bg-primary text-on-primary px-4 py-2 rounded-xl font-label-sm text-label-sm hover:opacity-90 transition-all duration-200 active:scale-95">
+        <button className="bg-primary text-on-primary px-4 py-2 rounded-xl font-label-sm text-label-sm hover:opacity-90 transition-all duration-200 active:scale-95 cursor-pointer">
           Neuer Stapel
         </button>
+        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high hidden md:block">
+          <img
+            alt="User Profile"
+            className="w-full h-full object-cover"
+            src="https://i.pravatar.cc/40"
+          />
+        </div>
       </div>
     </header>
   );

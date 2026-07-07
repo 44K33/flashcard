@@ -18,13 +18,13 @@ function DeckHeader() {
       {/* Rechter Bereich: Filter- und Sortier-Buttons */}
       <div className="flex gap-2">
         {/* material-symbols-outlined = Google Icon Font, filter_list = Filter-Icon */}
-        <button className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors">
+        <button className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer">
           <span className="material-symbols-outlined text-on-surface-variant">
             filter_list
           </span>
         </button>
         {/* sort = Sortier-Icon */}
-        <button className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors">
+        <button className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer">
           <span className="material-symbols-outlined text-on-surface-variant">
             sort
           </span>
