@@ -28,7 +28,7 @@ function StudyCard({ isFlipped }) {
             <span className="absolute top-6 left-6 font-label-sm text-label-sm text-outline uppercase tracking-wider">
               Frage
             </span>
-            <h2 className="font-card-content text-card-content text-on-surface leading-relaxed max-w-[80%]">
+            <h2 className="font-card-content text-[16px] md:text-card-content text-on-surface leading-relaxed max-w-[80%]">
               Welcher Muskel ist primär für die Beugung des Ellenbogengelenks
               verantwortlich?
             </h2>
