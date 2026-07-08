@@ -1,4 +1,4 @@
-function StudyCard() {
+function StudyCard({ isFlipped }) {
   return (
     <div className="w-full max-w-[640px] flex flex-col items-center justify-center">
       {/* Fortschrittsbalken */}
@@ -19,7 +19,9 @@ function StudyCard() {
       {/* Karteikarte: perspective-1000 = ermöglicht 3D-Flip-Animation */}
       <div className="w-full max-w-[640px] h-[400px] perspective-1000 group">
         {/* preserve-3d = Kinder behalten ihre 3D-Position beim Drehen */}
-        <div className="relative w-full h-full card-flip preserve-3d">
+        <div
+          className={`relative w-full h-full card-flip preserve-3d ${isFlipped ? "flipped" : ""}`}
+        >
           {/* Vorderseite: Frage */}
           {/* backface-hidden = Rückseite wird versteckt wenn Karte gedreht ist */}
           <div className="absolute inset-0 backface-hidden bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_-4px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center p-8 text-center border border-outline-variant/30">
