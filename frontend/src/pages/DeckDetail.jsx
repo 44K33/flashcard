@@ -1,12 +1,13 @@
+import DeckDetailHeader from "../components/DeckDetailHeader";
+import DeckDetailContent from "../components/DeckDetailContent";
 import CardForm from "../components/CardForm";
 import CardList from "../components/CardList";
 
 function DeckDetail() {
   return (
     <main>
-      <h1>Deck Detail</h1>
-      <CardForm />
-      <CardList />
+      <DeckDetailHeader />
+      <DeckDetailContent />
     </main>
   );
 }
