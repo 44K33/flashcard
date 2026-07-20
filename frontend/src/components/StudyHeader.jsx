@@ -1,17 +1,27 @@
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 function StudyHeader() {
+  const navigate = useNavigate();
   return (
     <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 h-16 bg-surface shadow-sm transition-all duration-200 relative">
       {/* Linker Bereich: X-Button und Logo (Logo nur auf Desktop) */}
       <div className="flex items-center gap-4">
-        <button className="p-2 -ml-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 border-0 outline-none cursor-pointer">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 -ml-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 border-0 outline-none cursor-pointer"
+        >
           <span className="material-symbols-outlined text-on-surface">
             close
           </span>
         </button>
         {/* hidden md:block = Logo nur auf Desktop sichtbar */}
-        <h1 className="hidden md:block font-headline-md text-headline-md font-bold text-primary">
+        <Link
+          to="/"
+          className="hidden md:block font-headline-md text-headline-md font-bold text-primary"
+        >
           FlashLearn
-        </h1>
+        </Link>
       </div>
 
       {/* Deck-Name: auf Mobile sichtbar, auf Desktop zentriert */}
