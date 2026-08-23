@@ -3,22 +3,34 @@ import { useNavigate, Link } from "react-router-dom";
 
 function CreateDeck() {
   // State für die beiden Formularfelder
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   // useNavigate = ermöglicht programmatisches Navigieren (z.B. nach dem Erstellen zurück zur Home-Seite)
   const navigate = useNavigate();
 
   // handleSubmit wird beim Klick auf "Stapel erstellen" ausgeführt
-  const handleSubmit = (e) => {
-    // verhindert das Standard-Verhalten von <form> (Seite neu laden)
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Hier später: Daten ans Backend schicken (name, description)
-    console.log("Neuer Stapel:", { name, description });
+    try {
+      const response = await fetch("/api/decks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description }),
+      });
 
-    // Zurück zur Home-Seite navigieren
-    navigate("/");
+      if (!response.ok) {
+        throw new Error("Fehler beim Erstellen des Decks");
+      }
+
+      const newDeck = await response.json();
+      console.log("Deck erstellt:", newDeck);
+
+      navigate("/");
+    } catch (error) {
+      console.error("Fehler:", error);
+    }
   };
 
   return (
@@ -82,8 +94,8 @@ function CreateDeck() {
                   required
                   placeholder="z.B. Anatomie Grundlagen"
                   // value + onChange = kontrolliertes Input-Feld, React kennt immer den aktuellen Wert
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface text-body-md font-body-md transition-all placeholder:text-outline focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
                 />
               </div>

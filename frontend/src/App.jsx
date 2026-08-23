@@ -10,7 +10,7 @@ function App() {
   const location = useLocation();
 
   // isStudy = true wenn wir auf /study sind, sonst false
-  const isStudy = location.pathname === "/study";
+  const isStudy = location.pathname.startsWith("/study");
   // isCreateDeck = true wenn wir auf /decks/new sind, sonst false
   const isCreateDeck = location.pathname === "/decks/new";
 
@@ -22,7 +22,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/decks/new" element={<CreateDeck />} />
         <Route path="/decks/:deckId" element={<DeckDetail />} />
-        <Route path="/study" element={<Study />} />
+        <Route path="/study/:deckId" element={<Study />} />
       </Routes>
     </div>
   );

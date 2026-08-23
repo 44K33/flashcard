@@ -2,7 +2,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import * as LucideIcons from "lucide-react"; // Alle Icons auf einmal importieren
 import { Link } from "react-router-dom";
 
-function DeckCard({ name, description, cardCount, icon, onEdit, onDelete }) {
+function DeckCard({ title, description, cardCount, icon, onEdit, onDelete, id}) {
   // LucideIcons[icon] = dynamisches Icon anhand des Namens (z.B. "Database" → <Database />)
   const IconComponent = LucideIcons[icon] || LucideIcons.Layers;
   // || LucideIcons.Layers = Fallback falls Icon-Name nicht gefunden
@@ -43,7 +43,7 @@ function DeckCard({ name, description, cardCount, icon, onEdit, onDelete }) {
       </div>
 
       {/* Titel: 24px entspricht headline-md aus dem Stitch-Design */}
-      <h3 className="text-[24px] font-semibold text-on-surface mb-2">{name}</h3>
+      <h3 className="text-[24px] font-semibold text-on-surface mb-2">{title}</h3>
 
       {/* Beschreibung: flex-grow = füllt verfügbaren Platz, damit Lernen-Button immer unten bleibt */}
       <p className="text-[16px] text-on-surface-variant mb-6 flex-grow">
@@ -58,7 +58,7 @@ function DeckCard({ name, description, cardCount, icon, onEdit, onDelete }) {
 
         {/* active:scale-95 = Button verkleinert sich leicht beim Klicken */}
         <Link
-          to="/study"
+          to={`/study/${id}`}
           className="rounded-xl text-on-primary bg-primary px-6 py-2 font-bold hover:opacity-90 transition-all duration-200 active:scale-95 cursor-pointer"
         >
           Lernen

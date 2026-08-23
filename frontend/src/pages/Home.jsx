@@ -1,22 +1,32 @@
+import { useState, useEffect } from "react";
 import DeckList from "../components/DeckList";
 import DeckHeader from "../components/DeckHeader";
 
 function Home() {
-  const testDecks = [
-    {
-      _id: "1",
-      name: "Test",
-      description:
-        "Ein Test, der mehr Text enthält als alle anderen Karten. Er hilft mir die Abstände richtig einzuschätzen.",
-      cardCount: 5,
-    },
-    { _id: "2", name: "Test", description: "Ein Test", cardCount: 5 },
-  ];
+  const [decks, setDecks] = useState([]);
+
+  useEffect(() => {
+    // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
+    const loadDecks = async () => {
+      try {
+        // Anfrage an den Server schicken
+        const response = await fetch("/api/decks");
+        // Antwort als JSON umwandeln
+        const data = await response.json();
+        // Ergebnis im State speichern
+        setDecks(data);
+      } catch (error) {
+        console.error("Fehler beim Laden der Decks:", error);
+      }
+    };
+
+    loadDecks();
+  }, []); // leeres Array = nur einmal beim ersten Laden ausführen
 
   return (
     <main className="pt-24 pb-8 px-8 max-w-7xl mx-auto">
       <DeckHeader />
-      <DeckList decks={testDecks} />
+      <DeckList decks={decks} />
     </main>
   );
 }

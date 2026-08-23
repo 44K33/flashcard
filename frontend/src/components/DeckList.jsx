@@ -12,10 +12,11 @@ function DeckList({ decks = [] }) {
       {decks.map((deck) => (
         <DeckCard
           key={deck._id || deck.id}
-          name={deck.name}
+          title={deck.title}
           description={deck.description}
           cardCount={deck.cardCount}
           icon={deck.icon}
+          id={deck._id}
         />
       ))}
       <AddDeckCard />
