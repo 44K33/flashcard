@@ -4,13 +4,21 @@ import jwt from "jsonwebtoken";
 // @route   POST /api/auth/login
 export const loginUser = async (req, res) => {
   try {
-    const { password } = req.body;
+    const { username, password } = req.body;
 
-    if (process.env.APP_PASSWORD && password === process.env.APP_PASSWORD) {
+    if (
+      process.env.APP_PASSWORD &&
+      password === process.env.APP_PASSWORD &&
+      process.env.APP_USERNAME &&
+      username === process.env.APP_USERNAME
+    ) {
       // Hier wird über prüft ob der wert "APP_PASSWORD" True/false ist
       // dan wird es überprüft ob "password" mit "process.env.APP_PASSWORD" übereinstimmt
+      // dies wird zusätzlich für den username geprüft damit alle 4 bedienungen erfüllt werden
 
-      const token = jwt.sign({}, process.env.JWT_SECRET, { expiresIn: "1d" });
+      const token = jwt.sign({ username }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
+      });
       // jwt.sign(payload, secret, options) erstellt ein signiertes Token.
       // Baut Header + Payload, kodiert beides (Base64Url) und berechnet mit JWT_SECRET
       // eine Signatur (HMAC-SHA256) daraus. Ergebnis: "header.payload.signatur" als String.
@@ -20,7 +28,7 @@ export const loginUser = async (req, res) => {
       res.status(200).json({ token });
     } else {
       res.status(401).json({
-        message: "Ungültiges Passwort",
+        message: "Ungültige Anmeldedaten",
       });
     }
   } catch (error) {
