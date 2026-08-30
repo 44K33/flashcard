@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { deckApi } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 function DeckDetailContent({ deckId }) {
   const [deck, setDeck] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
     const loadDecks = async () => {
@@ -19,6 +21,15 @@ function DeckDetailContent({ deckId }) {
     };
     loadDecks();
   }, [deckId]);
+
+  const handleDelete = async () => {
+    try {
+      await deckApi.remove(deckId);
+      navigate("/");
+    } catch (error) {
+      console.error("Fehler:", error);
+    }
+  };
 
   if (!deck) return <p>Lädt...</p>;
   return (
@@ -129,7 +140,10 @@ function DeckDetailContent({ deckId }) {
               Diese Aktion kann nicht rückgängig gemacht werden.
             </p>
           </div>
-          <button className="text-error border border-error/30 hover:bg-error hover:text-on-error px-5 py-2 rounded-lg font-label-sm text-label-sm transition-all duration-200 cursor-pointer">
+          <button
+            onClick={handleDelete}
+            className="text-error border border-error/30 hover:bg-error hover:text-on-error px-5 py-2 rounded-lg font-label-sm text-label-sm transition-all duration-200 cursor-pointer"
+          >
             Stapel endgültig entfernen
           </button>
         </div>

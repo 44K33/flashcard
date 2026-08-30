@@ -23,11 +23,18 @@ function Home() {
 
     loadDecks();
   }, []); // leeres Array = nur einmal beim ersten Laden ausführen
-
+  const handleDelete = async (id) => {
+    try {
+      await deckApi.remove(id);
+      setDecks(decks.filter((d) => d._id !== id));
+    } catch (error) {
+      console.error("Fehler:", error);
+    }
+  };
   return (
     <main className="pt-24 pb-8 px-8 max-w-7xl mx-auto">
       <DeckHeader />
-      <DeckList decks={decks} />
+      <DeckList decks={decks} onDelete={handleDelete} />
     </main>
   );
 }

@@ -1,7 +1,7 @@
 import DeckCard from "../components/DeckCard";
 import AddDeckCard from "./AddDeckCard";
 
-function DeckList({ decks = [] }) {
+function DeckList({ decks = [], onDelete }) {
   if (!decks.length) {
     return <p>No decks available yet.</p>;
   }
@@ -17,6 +17,7 @@ function DeckList({ decks = [] }) {
           cardCount={deck.cardCount}
           icon={deck.icon}
           id={deck._id}
+          onDelete={onDelete}
         />
       ))}
       <AddDeckCard />

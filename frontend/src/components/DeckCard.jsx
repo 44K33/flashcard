@@ -2,7 +2,15 @@ import { Pencil, Trash2 } from "lucide-react";
 import * as LucideIcons from "lucide-react"; // Alle Icons auf einmal importieren
 import { Link } from "react-router-dom";
 
-function DeckCard({ title, description, cardCount, icon, onEdit, onDelete, id}) {
+function DeckCard({
+  title,
+  description,
+  cardCount,
+  icon,
+  onEdit,
+  onDelete,
+  id,
+}) {
   // LucideIcons[icon] = dynamisches Icon anhand des Namens (z.B. "Database" → <Database />)
   const IconComponent = LucideIcons[icon] || LucideIcons.Layers;
   // || LucideIcons.Layers = Fallback falls Icon-Name nicht gefunden
@@ -31,6 +39,7 @@ function DeckCard({ title, description, cardCount, icon, onEdit, onDelete, id}) 
 
           {/* Löschen-Button: group + group-hover = Icon wird rot wenn Button gehovert */}
           <button
+            onClick={() => onDelete(id)}
             className="p-1.5 rounded-lg hover:bg-error-container cursor-pointer group"
             title="Löschen"
           >
@@ -43,7 +52,11 @@ function DeckCard({ title, description, cardCount, icon, onEdit, onDelete, id}) 
       </div>
 
       {/* Titel: 24px entspricht headline-md aus dem Stitch-Design */}
-      <h3 className="text-[24px] font-semibold text-on-surface mb-2">{title}</h3>
+      <Link to={`/decks/${id}`}>
+        <h3 className="text-[24px] font-semibold text-on-surface mb-2">
+          {title}
+        </h3>
+      </Link>
 
       {/* Beschreibung: flex-grow = füllt verfügbaren Platz, damit Lernen-Button immer unten bleibt */}
       <p className="text-[16px] text-on-surface-variant mb-6 flex-grow">
@@ -69,4 +82,3 @@ function DeckCard({ title, description, cardCount, icon, onEdit, onDelete, id}) 
 }
 
 export default DeckCard;
-
