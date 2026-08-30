@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { deckApi } from "../services/api";
 
 function CreateDeck() {
   // State für die beiden Formularfelder
@@ -14,18 +15,10 @@ function CreateDeck() {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/decks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description }),
-      });
+      const response = await deckApi.create({ title, description });
 
-      if (!response.ok) {
-        throw new Error("Fehler beim Erstellen des Decks");
-      }
-
-      const newDeck = await response.json();
-      console.log("Deck erstellt:", newDeck);
+      const data = response.data;
+      console.log("Deck erstellt:", data);
 
       navigate("/");
     } catch (error) {

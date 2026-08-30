@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { deckApi } from "../services/api";
 import DeckList from "../components/DeckList";
 import DeckHeader from "../components/DeckHeader";
 
@@ -10,9 +11,9 @@ function Home() {
     const loadDecks = async () => {
       try {
         // Anfrage an den Server schicken
-        const response = await fetch("/api/decks");
+        const response = await deckApi.getAll();
         // Antwort als JSON umwandeln
-        const data = await response.json();
+        const data = response.data;
         // Ergebnis im State speichern
         setDecks(data);
       } catch (error) {

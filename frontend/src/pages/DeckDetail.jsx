@@ -7,10 +7,11 @@ import { useParams } from "react-router-dom";
 function DeckDetail() {
   const { deckId } = useParams();
   console.log("Aktuelle Deck-Id:", deckId);
+
   return (
     <main>
       <DeckDetailHeader />
-      <DeckDetailContent />
+      <DeckDetailContent deckId={deckId} />
     </main>
   );
 }

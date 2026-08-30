@@ -1,4 +1,26 @@
-function DeckDetailContent() {
+import { useState, useEffect } from "react";
+import { deckApi } from "../services/api";
+
+function DeckDetailContent({ deckId }) {
+  const [deck, setDeck] = useState(null);
+  useEffect(() => {
+    // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
+    const loadDecks = async () => {
+      try {
+        // Anfrage an den Server schicken
+        const response = await deckApi.getById(deckId);
+        // Antwort als JSON umwandeln
+        const data = response.data;
+        // Ergebnis im State speichern
+        setDeck(data);
+      } catch (error) {
+        console.error("Fehler beim Laden der Decks:", error);
+      }
+    };
+    loadDecks();
+  }, [deckId]);
+
+  if (!deck) return <p>Lädt...</p>;
   return (
     <div className="pt-24 pb-32 px-4 md:px-8 max-w-3xl mx-auto">
       {/* Deck-Name und Beschreibung */}
@@ -8,14 +30,14 @@ function DeckDetailContent() {
             className="w-full bg-transparent border-none p-0 font-headline-md text-headline-md md:text-display-lg focus:ring-0 focus:outline-none placeholder:text-outline-variant font-bold"
             placeholder="Stapelname..."
             type="text"
-            defaultValue="Fortgeschrittene Neurobiologie"
+            defaultValue={deck.title}
           />
         </div>
         <div className="relative">
           <textarea
             className="w-full bg-transparent border-none p-0 font-body-md text-body-md text-on-surface-variant focus:ring-0 transition-all resize-none min-h-[60px]"
             placeholder="Beschreibung hinzufügen..."
-            defaultValue="Mechanismen der synaptischen Plastizität..."
+            defaultValue={deck.description}
           />
         </div>
       </section>
