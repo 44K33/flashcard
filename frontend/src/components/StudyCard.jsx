@@ -1,4 +1,4 @@
-function StudyCard({ isFlipped }) {
+function StudyCard({ isFlipped, currentCard, currentIndex, totalCards }) {
   return (
     <div className="w-full max-w-[640px] flex flex-col items-center justify-center">
       {/* Fortschrittsbalken */}
@@ -8,7 +8,7 @@ function StudyCard({ isFlipped }) {
             Fortschritt
           </span>
           <span className="font-label-sm text-label-sm font-bold text-primary">
-            Karte 5 von 20
+            Karte {currentIndex + 1} von {totalCards}
           </span>
         </div>
         <div className="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
@@ -29,8 +29,7 @@ function StudyCard({ isFlipped }) {
               Frage
             </span>
             <h2 className="font-card-content text-[16px] md:text-card-content text-on-surface leading-relaxed max-w-[80%]">
-              Welcher Muskel ist primär für die Beugung des Ellenbogengelenks
-              verantwortlich?
+              {currentCard.question}
             </h2>
           </div>
 
@@ -41,11 +40,8 @@ function StudyCard({ isFlipped }) {
               Antwort
             </span>
             <div className="space-y-4">
-              <h2 className="font-card-content text-card-content text-on-surface font-bold leading-relaxed">
-                Musculus biceps brachii
-              </h2>
-              <p className="text-on-surface-variant font-body-md text-body-md max-w-[80%] mx-auto">
-                Unterstützt durch den M. brachialis und den M. brachioradialis.
+              <p className="font-card-content text-card-content text-on-surface font-bold leading-relaxed">
+                {currentCard.answer}
               </p>
             </div>
           </div>

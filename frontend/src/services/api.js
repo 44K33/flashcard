@@ -15,6 +15,7 @@ export const deckApi = {
 export const cardApi = {
   getAll: () => api.get("/cards"),
   getById: (id) => api.get(`/cards/${id}`),
+  getByDeck: (deckId) => api.get(`/cards/deck/${deckId}`),
   create: (payload) => api.post("/cards", payload),
   update: (id, payload) => api.put(`/cards/${id}`, payload),
   remove: (id) => api.delete(`/cards/${id}`),
