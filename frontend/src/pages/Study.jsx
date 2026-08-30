@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import StudyHeader from "../components/StudyHeader";
 import StudyCard from "../components/StudyCard";
 import StudyControls from "../components/StudyControls";
 import StudyResult from "../components/StudyResult";
+import { cardApi } from "../services/api";
 
 function Study() {
   // isFlipped = false: Frage sichtbar / true: Antwort sichtbar
@@ -16,7 +17,36 @@ function Study() {
   // zählt wie oft eine Bewertung (Nochmal/Gut/Einfach) angeklickt wurde
   const [clickCount, setClickCount] = useState(0);
 
+  // cards = speichert die Liste aller Karten, die zum aktuellen Deck gehören
+  // Start: leeres Array, bis die echten Daten vom Server da sind
+  const [cards, setCards] = useState([]);
+
+  // currentIndex = merkt sich, bei welcher Karte (Position im Array) man gerade ist
+  // Start: 0 = die erste Karte im Array
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const navigate = useNavigate();
+
+  // deckId = wird aus der URL gelesen (z.B. bei /study/64a2f... ist deckId = "64a2f...")
+  // Das Frontend weiss dadurch, für welches Deck die Karten geladen werden müssen
+  const { deckId } = useParams();
+  console.log(deckId);
+
+  // useEffect lädt automatisch alle Karten des aktuellen Decks,
+  // sobald die Seite geladen wird ODER sich deckId in der URL ändert
+  useEffect(() => {
+    const loadCards = async () => {
+      try {
+        const response = await cardApi.getByDeck(deckId);
+        setCards(response.data);
+      } catch (error) {
+        console.error("Fehler beim Laden der Karten:", error);
+      }
+    };
+
+    loadCards();
+    // [deckId] = führe diesen Code erneut aus, sobald sich deckId in der URL ändert
+  }, [deckId]);
 
   // handleRate wird aufgerufen, wenn eine Bewertung angeklickt wird
   const handleRate = () => {
@@ -39,6 +69,8 @@ function Study() {
     setIsFlipped(false);
   };
 
+  const currentCard = cards[currentIndex];
+
   return (
     <div className="h-screen bg-surface flex flex-col">
       <StudyHeader />
@@ -49,10 +81,15 @@ function Study() {
             onRestart={handleRestart}
             onBackToOverview={() => navigate("/")}
           />
-        ) : (
+        ) : currentCard ? (
           <>
             {/* isFlipped wird als Prop weitergegeben */}
-            <StudyCard isFlipped={isFlipped} />
+            <StudyCard
+              isFlipped={isFlipped}
+              currentCard={currentCard}
+              currentIndex={currentIndex}
+              totalCards={cards.length}
+            />
             {/* setIsFlipped wird als Prop weitergegeben damit Controls den State ändern können */}
             <StudyControls
               isFlipped={isFlipped}
@@ -60,6 +97,8 @@ function Study() {
               onRate={handleRate}
             />
           </>
+        ) : (
+          <p className="text-on-surface-variant">Lade Karten...</p>
         )}
       </div>
     </div>
