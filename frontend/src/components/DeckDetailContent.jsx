@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { deckApi } from "../services/api";
+import { deckApi, cardApi } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 function DeckDetailContent({ deckId }) {
   const [deck, setDeck] = useState(null);
+  const [cards, setCards] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
     const loadDecks = async () => {
@@ -22,6 +24,23 @@ function DeckDetailContent({ deckId }) {
     loadDecks();
   }, [deckId]);
 
+  useEffect(() => {
+    // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
+    const loadDecks = async () => {
+      try {
+        // Anfrage an den Server schicken
+        const response = await cardApi.getByDeck(deckId);
+        // Antwort als JSON umwandeln
+        const data = response.data;
+        // Ergebnis im State speichern
+        setCards(data);
+      } catch (error) {
+        console.error("Fehler beim Laden der Decks:", error);
+      }
+    };
+    loadDecks();
+  }, [deckId]);
+
   const handleDelete = async () => {
     try {
       await deckApi.remove(deckId);
@@ -30,7 +49,14 @@ function DeckDetailContent({ deckId }) {
       console.error("Fehler:", error);
     }
   };
-
+  const handleDeleteCard = async (cardId) => {
+    try {
+      await cardApi.remove(cardId);
+      setCards(cards.filter((c) => c._id !== cardId));
+    } catch (error) {
+      console.error("Fehler:", error);
+    }
+  };
   if (!deck) return <p>Lädt...</p>;
   return (
     <div className="pt-24 pb-32 px-4 md:px-8 max-w-3xl mx-auto">
@@ -66,60 +92,42 @@ function DeckDetailContent({ deckId }) {
 
         {/* Beispielkarten */}
         <div className="space-y-3">
-          {/* Karte 1 */}
-          <div className="group relative bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 hover:border-primary/30 transition-all duration-200">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <textarea
-                  className="w-full bg-transparent border-none p-0 font-body-md text-body-md text-on-surface focus:ring-0 focus:outline-none resize-none"
-                  rows="1"
-                  defaultValue="Was ist Long-term Potentiation (LTP)?"
-                />
+          {cards.map((card) => (
+            <div
+              key={card._id}
+              className="group relative bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 hover:border-primary/30 transition-all duration-200"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <textarea
+                    className="w-full bg-transparent border-none p-0 font-body-md text-body-md text-on-surface focus:ring-0 focus:outline-none resize-none"
+                    rows="1"
+                    defaultValue={card.question}
+                  />
+                </div>
+                <div className="space-y-1 md:border-l border-outline-variant/20 md:pl-4">
+                  <textarea
+                    className="w-full bg-transparent border-none p-0 font-body-md text-body-md text-on-surface-variant focus:ring-0 focus:outline-none resize-none"
+                    rows="1"
+                    defaultValue={card.answer}
+                  />
+                </div>
               </div>
-              <div className="space-y-1 md:border-l border-outline-variant/20 md:pl-4">
-                <textarea
-                  className="w-full bg-transparent border-none p-0 font-body-md text-body-md text-on-surface-variant focus:ring-0 focus:outline-none resize-none"
-                  rows="1"
-                  defaultValue="Eine langanhaltende Verstärkung der synaptischen Übertragung."
-                />
+              {/* Löschen-Button: erscheint beim Hovern */}
+              <div className="absolute -right-2 -top-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  onClick={() => handleDeleteCard(card._id)}
+                  className="bg-error-container text-error p-1.5 rounded-full hover:bg-error hover:text-on-error transition-colors shadow-sm cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[18px]">
+                    close
+                  </span>
+                </button>
               </div>
             </div>
-            {/* Löschen-Button: erscheint beim Hovern */}
-            <div className="absolute -right-2 -top-2 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button className="bg-error-container text-error p-1.5 rounded-full hover:bg-error hover:text-on-error transition-colors shadow-sm cursor-pointer">
-                <span className="material-symbols-outlined text-[18px]">
-                  close
-                </span>
-              </button>
-            </div>
-          </div>
+          ))}
 
           {/* Karte 2 */}
-          <div className="group relative bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 hover:border-primary/30 transition-all duration-200">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <textarea
-                  className="w-full bg-transparent border-none p-0 font-body-md text-body-md text-on-surface focus:ring-0 focus:outline-none resize-none"
-                  rows="1"
-                  defaultValue="Haupt-Neurotransmitter für exzitatorische Signale?"
-                />
-              </div>
-              <div className="space-y-1 md:border-l border-outline-variant/20 md:pl-4">
-                <textarea
-                  className="w-full bg-transparent border-none p-0 font-body-md text-body-md text-on-surface-variant focus:ring-0 focus:outline-none resize-none"
-                  rows="1"
-                  defaultValue="Glutamat."
-                />
-              </div>
-            </div>
-            <div className="absolute -right-2 -top-2 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button className="bg-error-container text-error p-1.5 rounded-full hover:bg-error hover:text-on-error transition-colors shadow-sm cursor-pointer">
-                <span className="material-symbols-outlined text-[18px]">
-                  close
-                </span>
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* Karte hinzufügen Button */}
