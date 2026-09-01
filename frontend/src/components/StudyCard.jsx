@@ -12,7 +12,10 @@ function StudyCard({ isFlipped, currentCard, currentIndex, totalCards }) {
           </span>
         </div>
         <div className="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
-          <div className="h-full bg-primary w-[25%] transition-all duration-500 ease-in-out"></div>
+          <div
+            className="h-full bg-primary transition-all duration-500 ease-in-out"
+            style={{ width: `${((currentIndex + 1) / totalCards) * 100}%` }}
+          ></div>
         </div>
       </div>
 

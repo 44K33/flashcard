@@ -1,4 +1,28 @@
+import { useEffect } from "react";
+
 function StudyControls({ isFlipped, setIsFlipped, onRate }) {
+  // Leertaste "Antwort Zeigen"
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code === "Space") {
+        event.preventDefault();
+        if (!isFlipped) {
+          setIsFlipped(true);
+        }
+        // Taste 1 "Nochmal"
+      } else if (isFlipped && event.key === "1") {
+        setIsFlipped(false);
+        onRate("unknown");
+        // Taste 2 & 3 "Gut" & "Einfach"
+      } else if (isFlipped && (event.key === "2" || event.key === "3")) {
+        setIsFlipped(false);
+        onRate("known");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isFlipped, onRate]);
+
   return (
     // fixed bottom = fixiert am unteren Rand
     // bg-gradient-to-t = Verlauf von unten nach oben, damit Inhalt nicht abrupt endet
@@ -23,7 +47,7 @@ function StudyControls({ isFlipped, setIsFlipped, onRate }) {
             className="flex-1 flex flex-col items-center gap-1 group"
             onClick={() => {
               setIsFlipped(false);
-              onRate();
+              onRate("unknown");
             }}
           >
             <div className="w-full h-10 md:h-14 bg-white border-2 border-error/20 rounded-xl flex items-center justify-center text-error group-hover:bg-error/5 group-active:scale-95 transition-all duration-200">
@@ -44,7 +68,7 @@ function StudyControls({ isFlipped, setIsFlipped, onRate }) {
             className="flex-1 flex flex-col items-center gap-1 group"
             onClick={() => {
               setIsFlipped(false);
-              onRate();
+              onRate("known");
             }}
           >
             <div className="w-full h-10 md:h-14 bg-primary text-white rounded-xl flex items-center justify-center group-hover:bg-primary-container group-active:scale-95 transition-all duration-200 shadow-sm">
@@ -65,7 +89,7 @@ function StudyControls({ isFlipped, setIsFlipped, onRate }) {
             className="flex-1 flex flex-col items-center gap-1 group"
             onClick={() => {
               setIsFlipped(false);
-              onRate();
+              onRate("known");
             }}
           >
             <div className="w-full h-10 md:h-14 bg-white border-2 border-secondary/20 rounded-xl flex items-center justify-center text-secondary group-hover:bg-secondary/5 group-active:scale-95 transition-all duration-200">

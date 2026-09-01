@@ -1,4 +1,13 @@
-function StudyResult({ deckTitle, onRestart, onBackToOverview }) {
+function StudyResult({
+  deckTitle,
+  onRestart,
+  onBackToOverview,
+  knownCount,
+  unknownCount,
+  accuracy,
+}) {
+  const circumference = 2 * Math.PI * 55;
+
   return (
     <div className="text-center mb-10">
       {/* Icon-Kreis mit Feier-Symbol */}
@@ -42,14 +51,17 @@ function StudyResult({ deckTitle, onRestart, onBackToOverview }) {
                 strokeLinecap="round"
                 style={{
                   strokeDasharray: 345.6,
-                  strokeDashoffset: 51.8,
+                  strokeDashoffset:
+                    circumference - (circumference * accuracy) / 100,
                 }}
               />
             </svg>
 
             {/* Text in der Mitte, absolut positioniert über dem SVG */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-3xl font-bold text-primary">85%</span>
+              <span className="text-3xl font-bold text-primary">
+                {accuracy}%
+              </span>
               <span className="font-caption text-caption text-on-surface-variant uppercase tracking-wide">
                 Genauigkeit
               </span>
@@ -76,7 +88,7 @@ function StudyResult({ deckTitle, onRestart, onBackToOverview }) {
               </p>
               {/* text-secondary = grüne Farbe für die Zahl */}
               <p className="text-display-lg-mobile font-display-lg-mobile text-secondary">
-                34{" "}
+                {knownCount}{" "}
                 <span className="text-body-md font-body-md opacity-60">
                   Karten
                 </span>
@@ -97,7 +109,7 @@ function StudyResult({ deckTitle, onRestart, onBackToOverview }) {
               </p>
               {/* text-error = rote Farbe für die Zahl */}
               <p className="text-display-lg-mobile font-display-lg-mobile text-error">
-                6{" "}
+                {unknownCount}{" "}
                 <span className="text-body-md font-body-md opacity-60">
                   Karten
                 </span>

@@ -28,6 +28,9 @@ function Study() {
   // deckId = wird aus der URL gelesen (z.B. bei /study/64a2f... ist deckId = "64a2f...")
   // Das Frontend weiss dadurch, für welches Deck die Karten geladen werden müssen
   const { deckId } = useParams();
+
+  const [knownCount, setKnownCount] = useState(0);
+  const [unknownCount, setUnknownCount] = useState(0);
   console.log(deckId);
 
   // useEffect lädt automatisch alle Karten des aktuellen Decks,
@@ -64,13 +67,16 @@ function Study() {
   }, [deckId]);
 
   // handleRate wird aufgerufen, wenn eine Bewertung angeklickt wird
-  const handleRate = () => {
+  const handleRate = (rating) => {
     setIsFlipped(false);
 
-    // Zähler erhöhen
-    const nextIndex = currentIndex + 1;
+    if (rating === "known") {
+      setKnownCount(knownCount + 1);
+    } else {
+      setUnknownCount(unknownCount + 1);
+    }
 
-    // Platzhalter-Regel: nach 3 Bewertungen gilt der Stapel als fertig gelernt
+    const nextIndex = currentIndex + 1;
     if (nextIndex >= cards.length) {
       setIsFinished(true);
     } else {
@@ -83,6 +89,8 @@ function Study() {
     setIsFinished(false);
     setCurrentIndex(0);
     setIsFlipped(false);
+    setKnownCount(0);
+    setUnknownCount(0);
   };
 
   const currentCard = cards[currentIndex];
@@ -95,6 +103,11 @@ function Study() {
           // Sobald fertig: Ergebnis-Seite statt Karte + Controls
           <StudyResult
             deckTitle={deck?.title}
+            knownCount={knownCount}
+            unknownCount={unknownCount}
+            accuracy={Math.round(
+              (knownCount / (knownCount + unknownCount)) * 100,
+            )}
             onRestart={handleRestart}
             onBackToOverview={() => navigate("/")}
           />
