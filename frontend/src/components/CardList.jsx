@@ -1,3 +1,5 @@
+// Wird nicht benötigt aktuell
+
 function CardList({ cards = [] }) {
   if (!cards.length) {
     return <p>No cards in this deck yet.</p>;
