@@ -1,4 +1,4 @@
-function DeckHeader() {
+function DeckHeader({ onSeed }) {
   return (
     // flex-col auf Mobile, md:flex-row auf Desktop = Titel links, Buttons rechts
     // md:items-end = Buttons am unteren Rand des Titels ausrichten
@@ -27,6 +27,14 @@ function DeckHeader() {
         <button className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer">
           <span className="material-symbols-outlined text-on-surface-variant">
             sort
+          </span>
+        </button>
+        <button
+          onClick={onSeed}
+          className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer"
+        >
+          <span className="material-symbols-outlined text-on-surface-variant">
+            database
           </span>
         </button>
       </div>

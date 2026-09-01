@@ -283,11 +283,8 @@ const seedData = [
   },
 ];
 
-const seedDB = async () => {
+export const seedDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB verbunden");
-
     // Bestehende Daten löschen
     await Card.deleteMany({});
     await Deck.deleteMany({});
@@ -308,11 +305,8 @@ const seedDB = async () => {
     }
 
     console.log("\nSeed erfolgreich abgeschlossen!");
-    process.exit(0);
   } catch (error) {
     console.error("Fehler beim Seeden:", error.message);
-    process.exit(1);
+    throw error;
   }
 };
-
-seedDB();

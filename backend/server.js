@@ -6,8 +6,9 @@ import connectDB from "./config/db.js";
 import deckRoutes from "./routes/deckRoutes.js";
 import cardRoutes from "./routes/cardRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import seedRoutes from "./routes/seedRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
--dotenv.config();
+dotenv.config();
 connectDB();
 
 const app = express();
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 app.use("/api/decks", deckRoutes);
 app.use("/api/cards", cardRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/seed", seedRoutes);
 
 // Fehlerbehandlung (immer am Ende)
 app.use(notFound);

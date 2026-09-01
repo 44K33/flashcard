@@ -21,4 +21,8 @@ export const cardApi = {
   remove: (id) => api.delete(`/cards/${id}`),
 };
 
+export const seedApi = {
+  run: () => api.post("/seed"),
+}
+
 export default api;

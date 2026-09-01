@@ -13,6 +13,7 @@ function Navbar() {
       >
         FlashLearn
       </Link>
+      
 
       {/* Navigation: hidden md:flex = nur auf Desktop sichtbar */}
       <nav className="hidden md:flex gap-8 h-full">

@@ -1,6 +1,6 @@
 import DeckDetailHeader from "../components/DeckDetailHeader";
 import DeckDetailContent from "../components/DeckDetailContent";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { deckApi } from "../services/api";
 import { useState, useEffect } from "react";
 
@@ -9,6 +9,7 @@ function DeckDetail() {
   const [deck, setDeck] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   console.log("Aktuelle Deck-Id:", deckId);
 
@@ -33,6 +34,7 @@ function DeckDetail() {
   const handleSave = async () => {
     try {
       await deckApi.update(deckId, { title, description });
+      navigate("/");
     } catch (error) {
       console.error("Fehler:", error);
     }
@@ -40,7 +42,14 @@ function DeckDetail() {
   return (
     <main>
       <DeckDetailHeader onSave={handleSave} />
-      <DeckDetailContent deckId={deckId} deck={deck} title={title} description={description} setTitle= {setTitle} setDescription={setDescription} />
+      <DeckDetailContent
+        deckId={deckId}
+        deck={deck}
+        title={title}
+        description={description}
+        setTitle={setTitle}
+        setDescription={setDescription}
+      />
     </main>
   );
 }
