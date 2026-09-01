@@ -1,4 +1,4 @@
-function StudyResult({ onRestart, onBackToOverview }) {
+function StudyResult({ deckTitle, onRestart, onBackToOverview }) {
   return (
     <div className="text-center mb-10">
       {/* Icon-Kreis mit Feier-Symbol */}
@@ -12,8 +12,8 @@ function StudyResult({ onRestart, onBackToOverview }) {
 
       <p className="text-on-surface-variant text-body-md font-body-md max-w-lg mx-auto">
         Du hast den Stapel{" "}
-        <span className="font-bold text-primary">Grundlagen Biologie</span>{" "}
-        erfolgreich abgeschlossen.
+        <span className="font-bold text-primary">{deckTitle}</span> erfolgreich
+        abgeschlossen.
       </p>
 
       {/* Äusseres Grid: 2 Spalten (Kreis links, Karten rechts) */}

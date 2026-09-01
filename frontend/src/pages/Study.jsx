@@ -4,7 +4,7 @@ import StudyHeader from "../components/StudyHeader";
 import StudyCard from "../components/StudyCard";
 import StudyControls from "../components/StudyControls";
 import StudyResult from "../components/StudyResult";
-import { cardApi } from "../services/api";
+import { deckApi, cardApi } from "../services/api";
 
 function Study() {
   // isFlipped = false: Frage sichtbar / true: Antwort sichtbar
@@ -13,10 +13,6 @@ function Study() {
   // isFinished = true, sobald der "Stapel" fertig gelernt ist
   const [isFinished, setIsFinished] = useState(false);
 
-  // clickCount = Platzhalter-Zähler, bis echte Karten vom Backend kommen
-  // zählt wie oft eine Bewertung (Nochmal/Gut/Einfach) angeklickt wurde
-  const [clickCount, setClickCount] = useState(0);
-
   // cards = speichert die Liste aller Karten, die zum aktuellen Deck gehören
   // Start: leeres Array, bis die echten Daten vom Server da sind
   const [cards, setCards] = useState([]);
@@ -24,6 +20,8 @@ function Study() {
   // currentIndex = merkt sich, bei welcher Karte (Position im Array) man gerade ist
   // Start: 0 = die erste Karte im Array
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [deck, setDeck] = useState(null);
 
   const navigate = useNavigate();
 
@@ -48,24 +46,42 @@ function Study() {
     // [deckId] = führe diesen Code erneut aus, sobald sich deckId in der URL ändert
   }, [deckId]);
 
+  useEffect(() => {
+    // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
+    const loadDecks = async () => {
+      try {
+        // Anfrage an den Server schicken
+        const response = await deckApi.getById(deckId);
+        // Antwort als JSON umwandeln
+        const data = response.data;
+        // Ergebnis im State speichern
+        setDeck(data);
+      } catch (error) {
+        console.error("Fehler beim Laden der Decks:", error);
+      }
+    };
+    loadDecks();
+  }, [deckId]);
+
   // handleRate wird aufgerufen, wenn eine Bewertung angeklickt wird
   const handleRate = () => {
     setIsFlipped(false);
 
     // Zähler erhöhen
-    const newCount = clickCount + 1;
-    setClickCount(newCount);
+    const nextIndex = currentIndex + 1;
 
     // Platzhalter-Regel: nach 3 Bewertungen gilt der Stapel als fertig gelernt
-    if (newCount >= 3) {
+    if (nextIndex >= cards.length) {
       setIsFinished(true);
+    } else {
+      setCurrentIndex(nextIndex);
     }
   };
 
   // handleRestart setzt alles zurück, um nochmal von vorne zu lernen
   const handleRestart = () => {
     setIsFinished(false);
-    setClickCount(0);
+    setCurrentIndex(0);
     setIsFlipped(false);
   };
 
@@ -73,11 +89,12 @@ function Study() {
 
   return (
     <div className="h-screen bg-surface flex flex-col">
-      <StudyHeader />
+      <StudyHeader deckTitle={deck?.title} />
       <div className="flex-grow flex flex-col items-center justify-start px-4 pt-24 pb-32">
         {isFinished ? (
           // Sobald fertig: Ergebnis-Seite statt Karte + Controls
           <StudyResult
+            deckTitle={deck?.title}
             onRestart={handleRestart}
             onBackToOverview={() => navigate("/")}
           />

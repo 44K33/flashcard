@@ -31,6 +31,7 @@ function DeckDetail() {
     };
     loadDecks();
   }, [deckId]);
+
   const handleSave = async () => {
     try {
       await deckApi.update(deckId, { title, description });
