@@ -23,6 +23,9 @@ export const cardApi = {
 
 export const seedApi = {
   run: () => api.post("/seed"),
-}
+};
 
+export const authApi = {
+  login: (credentials) => api.post("/auth/login", credentials),
+};
 export default api;
