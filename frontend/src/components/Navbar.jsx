@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    //Token aus dem Browser-Speicher entfernen
+    localStorage.removeItem("token");
+    // zur Login-Seite navigieren
+    navigate("/login");
+  };
+
   return (
     // fixed = bleibt immer oben sichtbar beim Scrollen
     // z-50 = liegt über allen anderen Elementen
@@ -13,7 +22,6 @@ function Navbar() {
       >
         FlashLearn
       </Link>
-      
 
       {/* Navigation: hidden md:flex = nur auf Desktop sichtbar */}
       <nav className="hidden md:flex gap-8 h-full">
@@ -31,11 +39,15 @@ function Navbar() {
       <div className="flex items-center gap-4">
         {/* active:scale-95 = Button verkleinert sich leicht beim Klicken */}
         <Link
-        to="/decks/new"
-        className="bg-primary text-on-primary px-4 py-2 rounded-xl font-label-sm text-label-sm hover:opacity-90 transition-all duration-200 active:scale-95 cursor-pointer">
+          to="/decks/new"
+          className="bg-primary text-on-primary px-4 py-2 rounded-xl font-label-sm text-label-sm hover:opacity-90 transition-all duration-200 active:scale-95 cursor-pointer"
+        >
           Neuer Stapel
         </Link>
-        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high hidden md:block">
+        <div
+          onClick={handleLogout}
+          className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high hidden md:block cursor-pointer"
+        >
           <img
             alt="User Profile"
             className="w-full h-full object-cover"
