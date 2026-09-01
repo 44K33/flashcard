@@ -1,28 +1,19 @@
 import { useState, useEffect } from "react";
 import { deckApi, cardApi } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import CardForm from "./CardForm";
 
-function DeckDetailContent({ deckId }) {
-  const [deck, setDeck] = useState(null);
+function DeckDetailContent({
+  deckId,
+  deck,
+  title,
+  description,
+  setTitle,
+  setDescription,
+}) {
   const [cards, setCards] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
-    const loadDecks = async () => {
-      try {
-        // Anfrage an den Server schicken
-        const response = await deckApi.getById(deckId);
-        // Antwort als JSON umwandeln
-        const data = response.data;
-        // Ergebnis im State speichern
-        setDeck(data);
-      } catch (error) {
-        console.error("Fehler beim Laden der Decks:", error);
-      }
-    };
-    loadDecks();
-  }, [deckId]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
@@ -57,6 +48,17 @@ function DeckDetailContent({ deckId }) {
       console.error("Fehler:", error);
     }
   };
+
+  const handleCreateCard = async (payload) => {
+    try {
+      const response = await cardApi.create({ ...payload, deck: deckId });
+
+      setCards([...cards, response.data]);
+    } catch (error) {
+      console.error("Fehler:", error);
+    }
+  };
+
   if (!deck) return <p>Lädt...</p>;
   return (
     <div className="pt-24 pb-32 px-4 md:px-8 max-w-3xl mx-auto">
@@ -67,14 +69,16 @@ function DeckDetailContent({ deckId }) {
             className="w-full bg-transparent border-none p-0 font-headline-md text-headline-md md:text-display-lg focus:ring-0 focus:outline-none placeholder:text-outline-variant font-bold"
             placeholder="Stapelname..."
             type="text"
-            defaultValue={deck.title}
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
           />
         </div>
         <div className="relative">
           <textarea
             className="w-full bg-transparent border-none p-0 font-body-md text-body-md text-on-surface-variant focus:ring-0 transition-all resize-none min-h-[60px]"
             placeholder="Beschreibung hinzufügen..."
-            defaultValue={deck.description}
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
           />
         </div>
       </section>
@@ -130,11 +134,22 @@ function DeckDetailContent({ deckId }) {
           {/* Karte 2 */}
         </div>
 
-        {/* Karte hinzufügen Button */}
-        <button className="w-full border border-dashed border-outline-variant/50 rounded-xl py-4 flex items-center justify-center gap-2 text-on-surface-variant hover:bg-surface-container-low hover:border-primary hover:text-primary transition-all cursor-pointer">
+        {/* Karte hinzufügen Button & Abbrechen */}
+        <button
+          onClick={() => setShowForm(true)}
+          className="w-full border border-dashed border-outline-variant/50 rounded-xl py-4 flex items-center justify-center gap-2 text-on-surface-variant hover:bg-surface-container-low hover:border-primary hover:text-primary transition-all cursor-pointer"
+        >
           <span className="material-symbols-outlined text-[20px]">add</span>
           <span className="font-label-sm text-label-sm">Karte hinzufügen</span>
         </button>
+        {showForm && (
+          <>
+            <CardForm
+              onCreate={handleCreateCard}
+              onCancel={() => setShowForm(false)}
+            />
+          </>
+        )}
       </section>
 
       {/* Danger Zone */}
