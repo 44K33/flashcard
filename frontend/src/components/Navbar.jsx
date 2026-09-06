@@ -6,8 +6,8 @@ function Navbar() {
   const handleLogout = () => {
     //Token aus dem Browser-Speicher entfernen
     localStorage.removeItem("token");
-    // zur Login-Seite navigieren
-    navigate("/login");
+    // zur Logout-Seite navigieren
+    navigate("/logout");
   };
 
   return (
