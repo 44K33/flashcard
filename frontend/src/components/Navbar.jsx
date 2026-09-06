@@ -18,7 +18,7 @@ function Navbar() {
       {/* Logo: text-headline-md = 24px, font-bold = extra fett, text-primary = blau */}
       <Link
         to="/"
-        className="font-headline-md text-headline-md font-bold text-primary"
+        className="text-xl md:font-headline-md md:text-headline-md font-bold text-primary"
       >
         FlashLearn
       </Link>
@@ -40,13 +40,13 @@ function Navbar() {
         {/* active:scale-95 = Button verkleinert sich leicht beim Klicken */}
         <Link
           to="/decks/new"
-          className="bg-primary text-on-primary px-4 py-2 rounded-xl font-label-sm text-label-sm hover:opacity-90 transition-all duration-200 active:scale-95 cursor-pointer"
+          className="bg-primary text-on-primary px-3 py-2 md:px-4 rounded-xl text-xs md:text-label-sm font-label-sm hover:opacity-90 transition-all duration-200 active:scale-95 cursor-pointer whitespace-nowrap"
         >
           Neuer Stapel
         </Link>
         <div
           onClick={handleLogout}
-          className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high hidden md:block cursor-pointer"
+          className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high cursor-pointer"
         >
           <img
             alt="User Profile"

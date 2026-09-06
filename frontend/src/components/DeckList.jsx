@@ -3,7 +3,7 @@ import AddDeckCard from "./AddDeckCard";
 
 function DeckList({ decks = [], onDelete }) {
   if (!decks.length) {
-    return <p>No decks available yet.</p>;
+    return <p>Noch keine Stapel vorhanden.</p>;
   }
 
   return (

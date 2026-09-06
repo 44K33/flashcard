@@ -6,7 +6,7 @@ function DeckHeader({ onSeed }) {
       {/* Linker Bereich: Titel und Untertitel */}
       <div>
         {/* text-display-lg-mobile = 36px auf Mobile, text-display-lg = 48px auf Desktop */}
-        <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-2">
+        <h1 className="text-3xl md:font-display-lg md:text-display-lg font-bold text-on-surface mb-2">
           Deine Stapel
         </h1>
         {/* max-w-2xl = Text wird nicht zu breit auf grossen Bildschirmen */}
