@@ -5,6 +5,8 @@ import DeckHeader from "../components/DeckHeader";
 
 function Home() {
   const [decks, setDecks] = useState([]);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [filterTag, setFilterTag] = useState("");
 
   useEffect(() => {
     // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
@@ -48,10 +50,31 @@ function Home() {
       console.error("Fehler:", error);
     }
   };
+
+  const allTags = [...new Set(decks.flatMap((deck) => deck.tags))];
+const filteredDecks = decks.filter((deck) => {
+  if (filterTag === "") return true;
+  return deck.tags.includes(filterTag);
+});
+
+const sortedDecks = [...filteredDecks].sort((a, b) => {
+  if (sortOrder === "asc") {
+    return a.title.localeCompare(b.title);
+  } else {
+    return b.title.localeCompare(a.title);
+  }
+});
+
   return (
     <main className="pt-24 pb-8 px-8 max-w-7xl mx-auto">
-      <DeckHeader onSeed={handleSeed} />
-      <DeckList decks={decks} onDelete={handleDelete} />
+      <DeckHeader
+  onSeed={handleSeed}
+  onSort={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+  allTags={allTags}
+  filterTag={filterTag}
+  onFilterChange={setFilterTag}
+      />
+      <DeckList decks={sortedDecks} onDelete={handleDelete} />
     </main>
   );
 }

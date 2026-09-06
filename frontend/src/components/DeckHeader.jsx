@@ -1,4 +1,4 @@
-function DeckHeader({ onSeed }) {
+function DeckHeader({ onSeed, onSort, allTags, filterTag, onFilterChange }) {
   return (
     // flex-col auf Mobile, md:flex-row auf Desktop = Titel links, Buttons rechts
     // md:items-end = Buttons am unteren Rand des Titels ausrichten
@@ -18,13 +18,23 @@ function DeckHeader({ onSeed }) {
       {/* Rechter Bereich: Filter- und Sortier-Buttons */}
       <div className="flex gap-2">
         {/* material-symbols-outlined = Google Icon Font, filter_list = Filter-Icon */}
-        <button className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer">
-          <span className="material-symbols-outlined text-on-surface-variant">
-            filter_list
-          </span>
-        </button>
+        <select
+          value={filterTag}
+          onChange={(e) => onFilterChange(e.target.value)}
+          className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer"
+        >
+          <option value="">Alle Tags</option>
+          {allTags.map((tag) => (
+            <option key={tag} value={tag}>
+              {tag}
+            </option>
+          ))}
+        </select>
         {/* sort = Sortier-Icon */}
-        <button className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer">
+        <button
+          onClick={onSort}
+          className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer"
+        >
           <span className="material-symbols-outlined text-on-surface-variant">
             sort
           </span>
