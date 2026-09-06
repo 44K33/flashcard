@@ -3,7 +3,7 @@ import * as LucideIcons from "lucide-react"; // Alle Icons auf einmal importiere
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-function DeckCard({ title, description, cardCount, icon, onDelete, id }) {
+function DeckCard({ title, description, cardCount, icon, tags, onDelete, id }) {
   // LucideIcons[icon] = dynamisches Icon anhand des Namens (z.B. "Database" → <Database />)
   const IconComponent = LucideIcons[icon] || LucideIcons.Layers;
   // || LucideIcons.Layers = Fallback falls Icon-Name nicht gefunden
@@ -54,7 +54,13 @@ function DeckCard({ title, description, cardCount, icon, onDelete, id }) {
       <p className="text-[16px] text-on-surface-variant mb-6 flex-grow">
         {description}
       </p>
-
+      <div className="flex flex-wrap gap-2 mb-4">
+        {tags.map((tag) => (
+          <span key={tag} className="text-caption text-primary">
+            #{tag}
+          </span>
+        ))}
+      </div>
       <div className="flex justify-between items-center mt-auto">
         {/* mt-auto = schiebt diesen Bereich ans Ende der Karte */}
         <span className="flex items-center gap-1 text-outline text-[14px]">

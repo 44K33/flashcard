@@ -9,6 +9,7 @@ function DeckDetail() {
   const [deck, setDeck] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [tags, setTags] = useState("");
   const navigate = useNavigate();
 
   console.log("Aktuelle Deck-Id:", deckId);
@@ -25,6 +26,7 @@ function DeckDetail() {
         setDeck(data);
         setTitle(data.title);
         setDescription(data.description);
+        setTags(data.tags.join(", "));
       } catch (error) {
         console.error("Fehler beim Laden der Decks:", error);
       }
@@ -34,7 +36,11 @@ function DeckDetail() {
 
   const handleSave = async () => {
     try {
-      await deckApi.update(deckId, { title, description });
+      const tagsArray = tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
+      await deckApi.update(deckId, { title, description, tags: tagsArray });
       navigate("/");
     } catch (error) {
       console.error("Fehler:", error);
@@ -50,6 +56,8 @@ function DeckDetail() {
         description={description}
         setTitle={setTitle}
         setDescription={setDescription}
+        tags={tags}
+        setTags={setTags}
       />
     </main>
   );

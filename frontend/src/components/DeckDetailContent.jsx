@@ -10,11 +10,13 @@ function DeckDetailContent({
   description,
   setTitle,
   setDescription,
+  tags,
+  setTags,
 }) {
   const [cards, setCards] = useState([]);
   const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
-
+  const [sortOrder, setSortOrder] = useState("asc");
   useEffect(() => {
     // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
     const loadDecks = async () => {
@@ -59,14 +61,25 @@ function DeckDetailContent({
     }
   };
 
+  const sortedCards = [...cards].sort((a, b) => {
+    if (sortOrder === "asc") {
+      return a.question.localeCompare(b.question);
+    } else {
+      return b.question.localeCompare(a.question);
+    }
+  });
+
   if (!deck) return <p>Lädt...</p>;
   return (
     <div className="pt-24 pb-32 px-4 md:px-8 max-w-3xl mx-auto">
       {/* Deck-Name und Beschreibung */}
       <section className="mb-10 space-y-4">
         <div className="group relative">
+          <h2 className="font-label-sm text-label-sm text-outline uppercase tracking-widest font-bold">
+            Titel
+          </h2>
           <input
-            className="w-full bg-transparent border-none p-0 font-headline-md text-headline-md md:text-display-lg focus:ring-0 focus:outline-none placeholder:text-outline-variant font-bold"
+            className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-colors font-headline-md text-headline-md md:text-display-lg focus:outline-none placeholder:text-outline-variant font-bold"
             placeholder="Stapelname..."
             type="text"
             value={title}
@@ -74,11 +87,26 @@ function DeckDetailContent({
           />
         </div>
         <div className="relative">
+          <h2 className="font-label-sm text-label-sm text-outline uppercase tracking-widest font-bold">
+            Beschreibung
+          </h2>
           <textarea
-            className="w-full bg-transparent border-none p-0 font-body-md text-body-md text-on-surface-variant focus:ring-0 transition-all resize-none min-h-[60px]"
+            className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-colors font-body-md text-body-md text-on-surface-variant focus:outline-none resize-none min-h-[60px]"
             placeholder="Beschreibung hinzufügen..."
             value={description}
             onChange={(event) => setDescription(event.target.value)}
+          />
+        </div>
+        <div className="relative">
+          <h2 className="font-label-sm text-label-sm text-outline uppercase tracking-widest font-bold">
+            Tag
+          </h2>
+          <input
+            type="text"
+            placeholder="Tags (mit Komma getrennt)..."
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-colors font-body-md text-body-md text-on-surface-variant focus:outline-none"
           />
         </div>
       </section>
@@ -89,14 +117,17 @@ function DeckDetailContent({
           <h2 className="font-label-sm text-label-sm text-outline uppercase tracking-widest font-bold">
             Inhalt
           </h2>
-          <button className="p-1.5 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors cursor-pointer">
+          <button
+            onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+            className="p-1.5 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors cursor-pointer"
+          >
             <span className="material-symbols-outlined text-[20px]">sort</span>
           </button>
         </div>
 
         {/* Beispielkarten */}
         <div className="space-y-3">
-          {cards.map((card) => (
+          {sortedCards.map((card) => (
             <div
               key={card._id}
               className="group relative bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 hover:border-primary/30 transition-all duration-200"

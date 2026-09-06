@@ -14,6 +14,7 @@ function DeckList({ decks = [], onDelete }) {
           key={deck._id || deck.id}
           title={deck.title}
           description={deck.description}
+          tags={deck.tags}
           cardCount={deck.cardCount}
           icon={deck.icon}
           id={deck._id}
