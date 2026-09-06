@@ -6,7 +6,7 @@ function CreateDeck() {
   // State für die beiden Formularfelder
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
+  const [tags, setTags] = useState("");
   // useNavigate = ermöglicht programmatisches Navigieren (z.B. nach dem Erstellen zurück zur Home-Seite)
   const navigate = useNavigate();
 
@@ -15,7 +15,15 @@ function CreateDeck() {
     e.preventDefault();
 
     try {
-      const response = await deckApi.create({ title, description });
+      const tagsArray = tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
+      const response = await deckApi.create({
+        title,
+        description,
+        tags: tagsArray,
+      });
 
       const data = response.data;
       console.log("Deck erstellt:", data);
@@ -115,7 +123,22 @@ function CreateDeck() {
                   className="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface text-body-md font-body-md transition-all placeholder:text-outline resize-none focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
                 />
               </div>
-
+              <div className="space-y-2">
+                <label
+                  htmlFor="stackTags"
+                  className="block font-label-sm text-label-sm text-on-surface font-semibold"
+                >
+                  Tags
+                </label>
+                <input
+                  id="stackTags"
+                  type="text"
+                  placeholder="z.B. Mathematik, Grundlagen"
+                  value={tags}
+                  onChange={(e) => setTags(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface text-body-md font-body-md transition-all placeholder:text-outline focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                />
+              </div>
               {/* Trennlinie + Buttons */}
               <div className="pt-4 border-t border-surface-variant flex flex-col md:flex-row justify-end gap-4">
                 <button
