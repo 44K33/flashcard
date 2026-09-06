@@ -5,6 +5,7 @@ import Study from "./pages/Study";
 import Navbar from "./components/Navbar";
 import CreateDeck from "./pages/CreateDeck";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 
 function App() {
   // useLocation = gibt die aktuelle URL zurück
@@ -16,17 +17,19 @@ function App() {
   const isCreateDeck = location.pathname === "/decks/new";
   // isLogin = true wenn wir auf /login sind, sonst false
   const isLogin = location.pathname === "/login";
+  const isLogout = location.pathname === "/logout";
 
   return (
     <div className="min-h-screen bg-surface">
       {/* Navbar nur anzeigen wenn wir auf keiner der beiden fokussierten Seiten sind */}
-      {!isStudy && !isCreateDeck && !isLogin && <Navbar />}
+      {!isStudy && !isCreateDeck && !isLogin && !isLogout && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/decks/new" element={<CreateDeck />} />
         <Route path="/decks/:deckId" element={<DeckDetail />} />
         <Route path="/study/:deckId" element={<Study />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </div>
   );
