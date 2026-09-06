@@ -16,7 +16,7 @@ function DeckDetailContent({
   const [cards, setCards] = useState([]);
   const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
-
+  const [sortOrder, setSortOrder] = useState("asc");
   useEffect(() => {
     // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
     const loadDecks = async () => {
@@ -60,6 +60,14 @@ function DeckDetailContent({
       console.error("Fehler:", error);
     }
   };
+
+  const sortedCards = [...cards].sort((a, b) => {
+    if (sortOrder === "asc") {
+      return a.question.localeCompare(b.question);
+    } else {
+      return b.question.localeCompare(a.question);
+    }
+  });
 
   if (!deck) return <p>Lädt...</p>;
   return (
@@ -109,14 +117,17 @@ function DeckDetailContent({
           <h2 className="font-label-sm text-label-sm text-outline uppercase tracking-widest font-bold">
             Inhalt
           </h2>
-          <button className="p-1.5 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors cursor-pointer">
+          <button
+            onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+            className="p-1.5 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors cursor-pointer"
+          >
             <span className="material-symbols-outlined text-[20px]">sort</span>
           </button>
         </div>
 
         {/* Beispielkarten */}
         <div className="space-y-3">
-          {cards.map((card) => (
+          {sortedCards.map((card) => (
             <div
               key={card._id}
               className="group relative bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 hover:border-primary/30 transition-all duration-200"
