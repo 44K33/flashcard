@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import CreateDeck from "./pages/CreateDeck";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
+import NotFound from "./pages/NotFound";
 
 function App() {
   // useLocation = gibt die aktuelle URL zurück
@@ -30,6 +31,7 @@ function App() {
         <Route path="/study/:deckId" element={<Study />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
