@@ -12,6 +12,8 @@ function StudyCard({ isFlipped, currentCard, currentIndex, totalCards }) {
           </span>
         </div>
         <div className="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+          {/* Berechnet den Fortschritt in Prozent: (aktuelle Kartennummer / Gesamtzahl) * 100 */}
+          {/* z.B. Karte 3 von 10 → (3/10)*100 = 30% Balkenbreite */}
           <div
             className="h-full bg-primary transition-all duration-500 ease-in-out"
             style={{ width: `${((currentIndex + 1) / totalCards) * 100}%` }}

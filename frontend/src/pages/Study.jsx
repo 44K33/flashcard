@@ -21,6 +21,7 @@ function Study() {
   // Start: 0 = die erste Karte im Array
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // deck = das komplette Deck-Objekt (u.a. für den Titel in Header/Result), null bis geladen
   const [deck, setDeck] = useState(null);
 
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ function Study() {
   // Das Frontend weiss dadurch, für welches Deck die Karten geladen werden müssen
   const { deckId } = useParams();
 
+  // knownCount/unknownCount = zählen, wie viele Karten als "gewusst"/"nicht gewusst" markiert wurden
   const [knownCount, setKnownCount] = useState(0);
   const [unknownCount, setUnknownCount] = useState(0);
   console.log(deckId);
@@ -49,6 +51,7 @@ function Study() {
     // [deckId] = führe diesen Code erneut aus, sobald sich deckId in der URL ändert
   }, [deckId]);
 
+  // zweiter useEffect: lädt zusätzlich das Deck selbst (für den Titel), unabhängig von den Karten
   useEffect(() => {
     // async-Funktion definieren, weil fetch Zeit braucht (Netzwerk-Anfrage)
     const loadDecks = async () => {
@@ -67,6 +70,7 @@ function Study() {
   }, [deckId]);
 
   // handleRate wird aufgerufen, wenn eine Bewertung angeklickt wird
+  // zählt je nach rating hoch und schaltet zur nächsten Karte weiter (oder beendet den Durchgang)
   const handleRate = (rating) => {
     setIsFlipped(false);
 
@@ -76,6 +80,7 @@ function Study() {
       setUnknownCount(unknownCount + 1);
     }
 
+    // Prüft, ob das die letzte Karte war (nextIndex wäre ausserhalb des Arrays)
     const nextIndex = currentIndex + 1;
     if (nextIndex >= cards.length) {
       setIsFinished(true);
@@ -97,10 +102,12 @@ function Study() {
 
   return (
     <div className="h-screen bg-surface flex flex-col">
+      {/* deck?.title = optional chaining, verhindert Fehler solange deck noch null ist */}
       <StudyHeader deckTitle={deck?.title} />
       <div className="flex-grow flex flex-col items-center justify-start px-4 pt-24 pb-32">
         {isFinished ? (
           // Sobald fertig: Ergebnis-Seite statt Karte + Controls
+          // accuracy = Prozentsatz gewusster Karten, gerundet auf eine ganze Zahl
           <StudyResult
             deckTitle={deck?.title}
             knownCount={knownCount}

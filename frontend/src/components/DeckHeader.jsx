@@ -17,7 +17,8 @@ function DeckHeader({ onSeed, onSort, allTags, filterTag, onFilterChange }) {
 
       {/* Rechter Bereich: Filter- und Sortier-Buttons */}
       <div className="flex gap-2">
-        {/* material-symbols-outlined = Google Icon Font, filter_list = Filter-Icon */}
+        {/* Dropdown zur Auswahl eines Tags, mit dem gefiltert werden soll */}
+        {/* value + onChange = kontrolliertes Auswahlfeld, wie bei einem Input */}
         <select
           value={filterTag}
           onChange={(e) => onFilterChange(e.target.value)}
@@ -30,7 +31,7 @@ function DeckHeader({ onSeed, onSort, allTags, filterTag, onFilterChange }) {
             </option>
           ))}
         </select>
-        {/* sort = Sortier-Icon */}
+        {/* sort = Sortier-Icon. Klick ruft onSort auf (kommt aus Home.jsx), schaltet zwischen auf-/absteigend um */}
         <button
           onClick={onSort}
           className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer"
@@ -39,6 +40,7 @@ function DeckHeader({ onSeed, onSort, allTags, filterTag, onFilterChange }) {
             sort
           </span>
         </button>
+        {/* database = Datenbank-Icon. Klick ruft onSeed auf, füllt die Datenbank mit Beispieldaten (löscht vorher alles Bestehende!) */}
         <button
           onClick={onSeed}
           className="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer"

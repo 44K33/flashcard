@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 function DeckDetailHeader({ onSave }) {
   const navigate = useNavigate();
   return (
-    <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px:4 md:px-8 h-16 bg-surface border-b border-outline-variant/30">
+    <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 h-16 bg-surface border-b border-outline-variant/30">
+      {/* Linker Bereich: Zurück-Pfeil (navigate(-1) = eine Seite im Verlauf zurück) und Logo */}
       <div className="flex items-center gap-4 cursor-pointer">
         <button
           onClick={() => navigate(-1)}
@@ -15,6 +16,7 @@ function DeckDetailHeader({ onSave }) {
           FlashLearn
         </span>
       </div>
+      {/* Rechter Bereich: Speichern-Button, ruft onSave auf (kommt aus DeckDetail.jsx) */}
       <div className="flex items-center gap-4">
         <button
           onClick={() => onSave()}

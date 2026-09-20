@@ -3,11 +3,18 @@ import * as LucideIcons from "lucide-react"; // Alle Icons auf einmal importiere
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+// Props, die diese Komponente von aussen (DeckList.jsx) übergeben bekommt:
+// title/description/cardCount/icon/tags = Daten des Decks
+// onDelete = Funktion aus Home.jsx, die ein Deck löscht
+// id = die MongoDB-ID dieses Decks
 function DeckCard({ title, description, cardCount, icon, tags, onDelete, id }) {
   // LucideIcons[icon] = dynamisches Icon anhand des Namens (z.B. "Database" → <Database />)
   const IconComponent = LucideIcons[icon] || LucideIcons.Layers;
   // || LucideIcons.Layers = Fallback falls Icon-Name nicht gefunden
+
+  // navigate = Funktion, mit der man per Code zu einer anderen Seite wechseln kann
   const navigate = useNavigate();
+
   return (
     // custom-card-shadow = eigene CSS-Klasse in index.css mit Schatten + Hover-Animation
     // border-transparent = unsichtbarer Border, wird beim Hovern zu primary-fixed (hellblau)
@@ -20,6 +27,7 @@ function DeckCard({ title, description, cardCount, icon, tags, onDelete, id }) {
 
         <div className="flex gap-1">
           {/* Bearbeiten-Button: heller Hintergrund beim Hovern */}
+          {/* Beim Klick: wechselt zur Detailseite dieses Decks (z.B. /decks/123), dort kann man es bearbeiten */}
           <button
             onClick={() => navigate(`/decks/${id}`)}
             className="p-1.5 rounded-lg hover:bg-surface-container-high cursor-pointer"
@@ -32,6 +40,7 @@ function DeckCard({ title, description, cardCount, icon, tags, onDelete, id }) {
           </button>
 
           {/* Löschen-Button: group + group-hover = Icon wird rot wenn Button gehovert */}
+          {/* Beim Klick: ruft onDelete auf (kommt aus Home.jsx) und übergibt die id dieses Decks */}
           <button
             onClick={() => onDelete(id)}
             className="p-1.5 rounded-lg hover:bg-error-container cursor-pointer group"
@@ -54,6 +63,9 @@ function DeckCard({ title, description, cardCount, icon, tags, onDelete, id }) {
       <p className="text-[16px] text-on-surface-variant mb-6 flex-grow">
         {description}
       </p>
+
+      {/* Zeigt alle Tags dieses Decks an, jeweils mit einem # davor (z.B. #Mathematik) */}
+      {/* .map() erstellt für jeden Tag im tags-Array ein eigenes <span>-Element */}
       <div className="flex flex-wrap gap-2 mb-4">
         {tags.map((tag) => (
           <span key={tag} className="text-caption text-primary">
@@ -61,6 +73,7 @@ function DeckCard({ title, description, cardCount, icon, tags, onDelete, id }) {
           </span>
         ))}
       </div>
+
       <div className="flex justify-between items-center mt-auto">
         {/* mt-auto = schiebt diesen Bereich ans Ende der Karte */}
         <span className="flex items-center gap-1 text-outline text-[14px]">
@@ -68,6 +81,7 @@ function DeckCard({ title, description, cardCount, icon, tags, onDelete, id }) {
         </span>
 
         {/* active:scale-95 = Button verkleinert sich leicht beim Klicken */}
+        {/* Link statt button, weil ein Klick zu einer anderen Seite (/study/id) navigieren soll */}
         <Link
           to={`/study/${id}`}
           className="rounded-xl text-on-primary bg-primary px-6 py-2 font-bold hover:opacity-90 transition-all duration-200 active:scale-95 cursor-pointer"

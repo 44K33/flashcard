@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { authApi } from "../services/api";
 
 function Login() {
+  // username/password = aktuelle Werte der beiden Eingabefelder
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,7 +13,9 @@ function Login() {
     e.preventDefault();
 
     try {
+      // Sendet Benutzername/Passwort ans Backend, bekommt bei Erfolg ein JWT-Token zurück
       const response = await authApi.login({ username, password });
+      // Destructuring: holt das Feld "token" aus der Server-Antwort
       const { token } = response.data;
 
       //Token im Browser speichern, damit der Login auch nach dem Neuladen bestehen bleibt

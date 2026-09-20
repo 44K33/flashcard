@@ -6,6 +6,7 @@ function CreateDeck() {
   // State für die beiden Formularfelder
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  // tags = Text, den der Nutzer eintippt (z.B. "Mathematik, Grundlagen"), als einfacher String
   const [tags, setTags] = useState("");
   // useNavigate = ermöglicht programmatisches Navigieren (z.B. nach dem Erstellen zurück zur Home-Seite)
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ function CreateDeck() {
     e.preventDefault();
 
     try {
+      // Wandelt den eingetippten Text in ein sauberes Array um:
+      // "Mathematik, Grundlagen" → ["Mathematik", "Grundlagen"]
+      // split() = am Komma trennen, trim() = Leerzeichen entfernen, filter() = leere Einträge rauswerfen
       const tagsArray = tags
         .split(",")
         .map((t) => t.trim())
@@ -80,6 +84,7 @@ function CreateDeck() {
 
           {/* Formular-Karte */}
           <div className="bg-surface-container-lowest rounded-xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)] p-6 md:p-10">
+            {/* Tags-Eingabefeld: Nutzer tippt mehrere Tags durch Komma getrennt ein */}
             <form className="space-y-8" onSubmit={handleSubmit}>
               {/* Name des Stapels */}
               <div className="space-y-2">

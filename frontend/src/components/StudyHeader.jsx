@@ -26,7 +26,7 @@ function StudyHeader({ deckTitle }) {
 
       {/* Deck-Name: auf Mobile sichtbar, auf Desktop zentriert */}
       <div className=" absolute left-1/2 -translate-x-1/2 flex gap-6 items-center">
-        <span className="text-sm md:text-body-md font-body-md text-body-md text-on-surface-variant">
+        <span className="text-sm md:text-body-md font-body-md text-on-surface-variant">
           <span className="font-bold">{deckTitle}</span>
         </span>
       </div>

@@ -6,6 +6,8 @@ function StudyResult({
   unknownCount,
   accuracy,
 }) {
+  // circumference = Umfang des Kreises (2 × π × Radius), Radius ist 55 (siehe r="55" bei den <circle>-Elementen)
+  // Wird gebraucht, um zu berechnen, wie viel Prozent des Kreises farbig gezeichnet werden soll
   const circumference = 2 * Math.PI * 55;
 
   return (
@@ -42,6 +44,8 @@ function StudyResult({
                 strokeWidth="8"
               />
               {/* Fortschritts-Kreis: liegt genau über dem grauen, wird aber nur teilweise "gezeichnet" */}
+              {/* strokeDashoffset berechnet, wie viel vom Kreis "leer" bleibt, abhängig von accuracy (%) */}
+              {/* Bei accuracy=100 wäre der Offset 0 (kompletter Kreis blau), bei accuracy=0 wäre er = circumference (Kreis komplett grau) */}
               <circle
                 className="stroke-primary fill-none"
                 cx="112"

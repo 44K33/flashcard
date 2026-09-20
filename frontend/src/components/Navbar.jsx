@@ -44,6 +44,7 @@ function Navbar() {
         >
           Neuer Stapel
         </Link>
+        {/* Profilbild, gleichzeitig Logout-Button: Klick ruft handleLogout auf */}
         <div
           onClick={handleLogout}
           className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high cursor-pointer"

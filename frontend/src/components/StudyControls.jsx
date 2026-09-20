@@ -1,15 +1,18 @@
 import { useEffect } from "react";
 
 function StudyControls({ isFlipped, setIsFlipped, onRate }) {
-  // Leertaste "Antwort Zeigen"
+  // Ermöglicht Steuerung per Tastatur: Leertaste zum Umdrehen, 1/2/3 zum Bewerten
   useEffect(() => {
+    // handleKeyDown wird bei JEDEM Tastendruck auf der ganzen Seite aufgerufen
     const handleKeyDown = (event) => {
+      // Leertaste "Antwort Zeigen"
       if (event.code === "Space") {
+        // preventDefault verhindert das Standard-Verhalten der Leertaste (z.B. Scrollen nach unten)
         event.preventDefault();
         if (!isFlipped) {
           setIsFlipped(true);
         }
-        // Taste 1 "Nochmal"
+        // Taste 1 "Nochmal" (nur wenn die Antwort bereits sichtbar ist)
       } else if (isFlipped && event.key === "1") {
         setIsFlipped(false);
         onRate("unknown");
@@ -19,7 +22,12 @@ function StudyControls({ isFlipped, setIsFlipped, onRate }) {
         onRate("known");
       }
     };
+
+    // Registriert den Listener beim Laden der Komponente
     window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup-Funktion: entfernt den Listener wieder, wenn die Komponente verschwindet
+    // (sonst würden sich bei jedem Neu-Rendern immer mehr Listener aufsammeln)
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isFlipped, onRate]);
 
@@ -42,7 +50,7 @@ function StudyControls({ isFlipped, setIsFlipped, onRate }) {
       {/* isFlipped = true: Nochmal / Gut / Einfach Buttons */}
       {isFlipped && (
         <div className="flex flex-row gap-3 md:gap-6 w-full max-w-[640px] justify-center">
-          {/* Nochmal Button */}
+          {/* Nochmal Button: zählt als "unknown" (nicht gewusst) */}
           <button
             className="flex-1 flex flex-col items-center gap-1 group"
             onClick={() => {
@@ -63,7 +71,7 @@ function StudyControls({ isFlipped, setIsFlipped, onRate }) {
             </span>
           </button>
 
-          {/* Gut Button */}
+          {/* Gut Button: zählt als "known" (gewusst) */}
           <button
             className="flex-1 flex flex-col items-center gap-1 group"
             onClick={() => {
@@ -84,7 +92,7 @@ function StudyControls({ isFlipped, setIsFlipped, onRate }) {
             </span>
           </button>
 
-          {/* Einfach Button */}
+          {/* Einfach Button: zählt ebenfalls als "known" (gewusst) */}
           <button
             className="flex-1 flex flex-col items-center gap-1 group"
             onClick={() => {

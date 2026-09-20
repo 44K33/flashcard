@@ -18,6 +18,7 @@ function App() {
   const isCreateDeck = location.pathname === "/decks/new";
   // isLogin = true wenn wir auf /login sind, sonst false
   const isLogin = location.pathname === "/login";
+  // isLogout = true wenn wir auf /logout sind, sonst false
   const isLogout = location.pathname === "/logout";
 
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/study/:deckId" element={<Study />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
+        {/* * = Wildcard, fängt alle URLs ab, die zu keiner anderen Route oben passen (z.B. Tippfehler in der Adresse) */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
