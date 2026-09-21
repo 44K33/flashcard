@@ -6,11 +6,15 @@ function Login() {
   // username/password = aktuelle Werte der beiden Eingabefelder
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  // error = Fehlermeldung, die bei fehlgeschlagenem Login angezeigt wird
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Fehlermeldung zurücksetzen, falls vorher schon einmal ein Fehler angezeigt wurde
+    setError("");
 
     try {
       // Sendet Benutzername/Passwort ans Backend, bekommt bei Erfolg ein JWT-Token zurück
@@ -25,6 +29,8 @@ function Login() {
       navigate("/");
     } catch (error) {
       console.error("Login fehlgeschlagen:", error);
+      // Zeigt dem Nutzer eine verständliche Meldung an
+      setError("Benutzername oder Passwort ist falsch.");
     }
   };
 
@@ -93,6 +99,11 @@ function Login() {
               />
             </div>
           </div>
+
+          {/* Fehlermeldung: wird nur angezeigt, wenn error nicht leer ist */}
+          {error && (
+            <p className="text-error text-body-md text-center -mt-2">{error}</p>
+          )}
 
           {/* Submit Button */}
           <button
